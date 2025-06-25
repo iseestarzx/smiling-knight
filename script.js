@@ -23,11 +23,17 @@ let checkImgStatus = () => {
     knight.style.backgroundImage = 'url("img/knight_sit.png")';
 }
 }
-
-let checkWin = () => {
-    if (hasWon === false && knightPos >= 1100) {
-
+// проверка победы:
+function checkWin() {
+    if (hasWon === false && knight.getBoundingClientRect().right >= 700) {
         hasWon = true;
+        const winMenu = document.createElement('div');
+        winMenu.className = 'winny';
+        zone.appendChild(winMenu);
+        const winTitle = document.createElement('span');
+        winTitle.textContent = 'ТЫ ВЫИГРАЛ!';
+        winTitle.className = 'winny_title'
+        winMenu.appendChild(winTitle)
     }
 }
 
@@ -72,7 +78,6 @@ function runRight(callback) {
     knight.style.backgroundImage = 'url("img/knight_run.png")';
     knightPos = knightPos + 15;
     knight.style.left = knightPos + 'px';
-    checkWin();
     setTimeout(callback, 100)
 }
 
@@ -87,8 +92,6 @@ function runLeft(callback) {
     knight.style.left = knightPos +'px';
     setTimeout(callback, 100)
 }
-
-//win меню:
 
 
 //стрела:
@@ -174,7 +177,8 @@ document.addEventListener('keydown', (event) => {
 document.addEventListener('keydown', (event) => {
   if (event.code === 'KeyD' && knight.getBoundingClientRect().right < zone.getBoundingClientRect().right) {
     if (knight.getBoundingClientRect().right < zone.getBoundingClientRect().right) { 
-    runRight(); 
+    runRight();
+    checkWin();
     // console.log(knight.getBoundingClientRect());
   }}
 });
